@@ -2,11 +2,11 @@
 
 ## **Session Overview**
 
-**Duration**: 90 minutes\
-**Audience**: \$2^{nd}\$ year, \$1^{st}\$ semester students, Intermediate level\
-**Session Type**: Practical lab\
-**Session Number**: 5\
-**Focus**: Understanding **Backtracking** as a problem-solving strategy and exploring its connection to **Dynamic Programming**.\
+**Duration**: 90 minutes  
+**Audience**: $2^{nd}$ year, $1^{st}$ semester students, Intermediate level  
+**Session Type**: Practical lab  
+**Session Number**: 5  
+**Focus**: Backtracking as a problem-solving strategy and its connection to Dynamic Programming  
 **Lecturer**: Nabil Ghosn
 
 ---
@@ -57,24 +57,19 @@ void FIND_SOLUTIONS(parameters):
 
 Let's say there are n steps (decisions to make), and at each step, you have k choices.
 
-*Counting the Possibilities:*
-
-1. Each Step: You have k choices.
-2. Total Steps: There are n steps to make.
-
 To find the total number of possible combinations, you multiply the choices at each step:
 
 Total Possibilities = k \* k \* k \* ... (n times) = $k^n$
 
-Exponential Growth: The time complexity of backtracking is typically O(k^n) because you have to explore all possible combinations of choices.
+Exponential Growth: The time complexity of backtracking is typically $O(k^n)$ because you have to explore all possible combinations of choices.
 
 ---
 
 ### **2. Backtracking vs. Dynamic Programming (15 minutes)**
 
-Dynamic Programming (DP) is often compared to backtracking when solving optimization problems.
+**Dynamic Programming (DP)** solves complex problems by breaking them down into simpler subproblems and storing the results to avoid redundant computations.
 
-- **Top-Down Approach (Memorization):** Solves the problem recursively and stores results in a table to avoid recalculating the same subproblem multiple times.
+- **Top-Down Approach (Memorization):** Solves the problem recursively and stores results in a memorization table to avoid recalculating the same subproblem multiple times.
 
 - **Bottom-Up Approach (Tabulation):** Starts with solving the smallest subproblems first and uses their results to iteratively build up solutions for larger subproblems.
 
@@ -107,17 +102,17 @@ Think of backtracking as exploring a maze where you systematically try every pat
 
 **Explanation**:
 
-- **Exploration**: The function tries adding both \`"0"\` and \`"1"\` to build all possible combinations.
-- **Undoing (Backtracking)**: After exploring one path (e.g., adding \`"0"\`), the function **backtracks** (returns) and explores the other path (adding \`"1"\`).
+- **Exploration**: The function tries adding both `"0"` and `"1"` to build all possible combinations.
+- **Undoing (Backtracking)**: After exploring one path (e.g., adding `"0"`), the function **backtracks** (returns) and explores the other path (adding `"1"`).
 
 1. **Base Case**:
-   - If \`n\` is \`0\`, print the result and stop the recursion.
+   - If `n` is `0`, print the result and stop the recursion.
 2. **Recursive Case**:
    - The function makes two recursive calls:
 
-   - One call adds \`"0"\` to the current result.
+   - One call adds `"0"` to the current result.
 
-   - Another call adds \`"1"\` to the current resul).
+   - Another call adds `"1"` to the current result.
 
 - **Code Implementation:**
 
@@ -144,7 +139,7 @@ void generateGrayCode(int n, String result) {
 
 1. **Recursive Exploration:**
    - It moves cell by cell across the board.
-   - If a cell is empty (`?`), it tries every number from '1' to '9'.
+   - If a cell is empty (`'?'`), it tries every number from `'1'` to `'9'`.
 2. **Validation and Backtracking:**
    - For each number, it places the number and recursively attempts to solve the rest of the board.
    - If a solution is not found, it resets (backtracks) and tries the next number.
@@ -257,11 +252,11 @@ Solve the **Longest Increasing Subsequence** problem in three different ways:
 1. **Base Case**:
    - When `i` reaches the end of the array (`i == arr.length`), it returns 0, signifying no more elements to consider.
 
-2. **Include the Element**:
-   - `include` stores the result of recursively calling `backtrackLIS` by moving to the next element (`i+1`) without including the current element `arr[i]`.
+2. **Exclude the Current Element**:
+   - `exclude` stores the result of recursively calling `backtrackLIS` by moving to the next element (`i+1`) without including the current element `arr[i]`.
 
-3. **Exclude the Element**:
-   - `exclude` stores the result of recursively calling `backtrackLIS` by moving to the next element (`i+1`) but including the current element if it’s greater or equal to the previous element `arr[j]`. This also adds 1 to the result, indicating inclusion.
+3. **Include the Current Element**:
+   - `include` stores the result of recursively calling `backtrackLIS` by moving to the next element (`i+1`) and including the current element `arr[i]` if it is greater or equal to the previous element `arr[j]`. This adds 1 to the result, indicating inclusion.
 
 4. **Backtracking**:
    - The function returns the maximum of `include` and `exclude`, ensuring all paths are explored and the longest subsequence is found.
@@ -271,10 +266,10 @@ Solve the **Longest Increasing Subsequence** problem in three different ways:
 ```java
 int backtrackLIS(int[] arr, int i, int j) {
     if (i == arr.length) return 0;
-    int include = backtrackLIS(arr, i+1, j);
-    int exclude = 0;
+    int exclude = backtrackLIS(arr, i+1, j);
+    int include = 0;
     if (arr[i] >= arr[j]) {
-        exclude = backtrackLIS(arr, i+1, i) + 1;
+        include = backtrackLIS(arr, i+1, i) + 1;
     }
     return Math.max(include, exclude);
 }
@@ -296,13 +291,13 @@ Optimizes backtracking by storing and reusing results of subproblems, reducing r
 **Code Implementation:**
 
 ```java
-int backtrackLIS(int[] arr, int i, int j) {
+int topDownLIS(int[] arr, int i, int j) {
     if (dp[i][j] != -1) return dp[i][j];
     if (i == arr.length) return 0;
-    int include = backtrackLIS(arr, i+1, j);
-    int exclude = 0;
+    int exclude = topDownLIS(arr, i+1, j);
+    int include = 0;
     if (arr[i] >= arr[j]) {
-        exclude = backtrackLIS(arr, i+1, i) + 1;
+        include = topDownLIS(arr, i+1, i) + 1;
     }
     dp[i][j] = Math.max(include, exclude);
     return dp[i][j];
@@ -313,18 +308,22 @@ int backtrackLIS(int[] arr, int i, int j) {
 
 Builds the solution from the ground up by solving smaller subproblems and combining their solutions to solve larger subproblems.
 
+See this video to understand the solution: [Longest Increasing Subsequence](https://www.youtube.com/watch?v=CE2b_-XfVDk)
+
 **Explanation:**
 
 1. **Initialization**:
-   - Create an array `dp` of the same length as `arr` and fill it with `1`. Each position represents the length of the LIS ending at that position.
+   - Create a `dp` array where each element starts as 1, representing the longest increasing subsequence ending at each element.
 
-2. **DP Table Update**:
-   - For each element `arr[i]` (starting from the second element):
-     - Compare it with all previous elements `arr[j]` (where `j < i`).
-     - If `arr[i] > arr[j]`, update `dp[i]` to be the maximum of `dp[i]` and `dp[j] + 1`.
+2. **Iterate Through Elements**:
+   - For each element `arr[i]` (starting from the second element), look back at all previous elements `arr[j]` (where `j < i`).
+   - If `arr[i] > arr[j]`, it means `arr[i]` can extend the subsequence ending at `arr[j]`.
 
-3. **Find Maximum Length**:
-   - Traverse the `dp` array to find the maximum value, which represents the length of the LIS.
+3. **Update DP Array**:
+   - For each valid pair (`arr[i] > arr[j]`), update `dp[i]` to be `Math.max(dp[i], dp[j] + 1)`. This accounts for including `arr[j]` in the subsequence ending at `arr[i]`.
+
+4. **Find Maximum Length**:
+   - After filling the `dp` array, traverse it to find the maximum value, which represents the length of the LIS.
 
 **Code Implementation:**
 
